@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link href="assets/css/material.icons.css" type="text/css" rel="stylesheet" />
+    <link href="./assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen" />
+    <link href="./assets/css/style.css" type="text/css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+    <header>
+        <nav class="purple darken-3">
+            <div class="nav-wrapper container">
+                <a href="./" class="brand-logo">Docs</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="./index.html">FR</a></li>
+                    <li><a href="./index_en.html">EN</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="./index.html">FR</a></li>
+            <li><a href="./index_en.html">EN</a></li>
+        </ul>
+    </header>
+    <main>
+        <div class="container">
+            <h5>Installation de l’environnement de développement Django 2.1.5 sur Windows</h5>
+            <h6>Installation de Python 3 64bit</h6>
+            <div class="container">
+                <p>Nous utiliserons l’installeur officiel Python 3.6.5 disponible ici <a target="_blank" href="https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe">python-3.7.2-amd64.exe</a></p>
+                <p>Procédez à l’installation en respectant les étapes suivante</p>
+                <img class="responsive-img" src="assets/img/setupPython372.png" alt="Setup Python 3.7.2">
+                <p>Cochez « Add Python 3.7 to PATH » et cliquez sur « Customize installation »</p>
+                <p>Cliquez sur Next</p>
+                <p>Cochez « Install for all users » puis sur « Install »</p>
+            </div>
+            <h6>Installation de Django</h6>
+            <div class="container">
+                <p>Maintenant nous allons procéder à l’installation de Django en utilisant « pip » qui est inclus dans Python 3. Cette installation requiert une connexion internet.</p>
+                <p>Ouvrez un cmd avec les privilèges administrateurs, vous pouvez le faire en cherchant cmd dans le Menu Démarrer et en faisant un clic droit, « Exécuter en tant qu’administrateur ».</p>
+                <p>Mettez à jour l’utilitaire pip</p>
+                <code class="black white-text">py -m pip install --upgrade pip</code>
+                <p>Installez Django</p>
+                <code class="black white-text">py -m pip install django==2.1.5</code>
+                <p>Installez Pillow</p>
+                <code class="black white-text">py -m pip install pillow==5.1.0</code>
+            </div>
+            <h6>Création de votre projet Django de test</h6>
+            <div class="container">
+                <p>Dans le répertoire de votre choix dans un cmd, exécutez la commande pour créer le projet</p>
+                <code class="black white-text">django-admin startproject nomduprojet</code>
+                <p>Maintenant, déplacez-vous dans le répertoire de votre projet</p>
+                <code class="black white-text">cd nomduprojet</code>
+                <p>Et enfin, lancer le serveur web de développement</p>
+                <code class="black white-text">python manage.py runserver</code>
+                <p>Le serveur est accessible en local via l’url suivante <a target="_blank" href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a></p>
+                <img class="responsive-img" src="assets/img/djangoServerTest.png">
+            </div>
+
+
+
+
+        </div>
+    </main>
+    <footer class="page-footer purple darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l9 s12">
+                    <h5 class="white-text">LIGHT-DASH</h5>
+                    <p class="white-text"><cite>"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</cite></p>
+                    <p class="white-text" id="description"></p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                GARCIA Florian et DANGUIN Axel
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/jquery-3.2.1.min.js"></script>
+    <script src="./assets/js/materialize.min.js"></script>
+    <script src="./assets/js/init.js"></script>
+</body>
+
+</html>
