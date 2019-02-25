@@ -1,0 +1,60 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="fr">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>{% block title %}LIGHT-DASH{% endblock %}</title>
+
+    <!-- CSS  -->
+    <link href="{% static 'css/material.icons.css'%}" rel="stylesheet">
+    <link href="{% static 'css/materialize.min.css'%}" type="text/css" rel="stylesheet" media="screen" />
+    <link href="{% static 'css/style.css'%}" type="text/css" rel="stylesheet" media="screen" /> {% block css %} {% endblock %}
+</head>
+
+<body>
+    <nav class="nav-extended lime accent-3">
+        <div class="nav-wrapper container">
+            <a href="{% url 'index' %}" class="brand-logo">LIGHT-DASH</a>
+        </div>
+        {% block nav %}
+        {% endblock %}
+    </nav>
+
+
+    <main>
+        {% block main %}
+
+        {% endblock %}
+    </main>
+
+
+    <footer class="page-footer lime accent-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l9 s12">
+                    <h5 class="white-text">LIGHT-DASH</h5>
+                    <p class="grey-text text-lighten-5">"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                GARCIA Florian et DANGUIN Axel
+            </div>
+        </div>
+    </footer>
+
+
+    <!--  Scripts-->
+    <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script src="{% static 'js/materialize.min.js'%}"></script>
+    <script src="{% static 'js/init.js'%}"></script>
+    {% block script %} {% endblock %}
+
+
+</body>
+
+</html>
