@@ -17,7 +17,7 @@
 <body>
     <nav class="nav-extended lime accent-4">
         <div class="nav-wrapper container">
-            <a href="{% url 'index' %}" class="brand-logo">LIGHT-DASH</a>
+            <a href="{% url 'index' %}" class="brand-logo black-text">LIGHT-DASH</a>
         </div>
         {% block nav %}
         {% endblock %}
@@ -26,7 +26,14 @@
 
     <main>
         {% block main %}
-
+        <div style="width:75%;">
+            <canvas id="canvas"></canvas>
+        </div>
+        <button id="randomizeData">Randomize Data</button>
+        <button id="addDataset">Add Dataset</button>
+        <button id="removeDataset">Remove Dataset</button>
+        <button id="addData">Add Data</button>
+        <button id="removeData">Remove Data</button>
         {% endblock %}
     </main>
 
@@ -35,13 +42,13 @@
         <div class="container">
             <div class="row">
                 <div class="col l9 s12">
-                    <h5 class="white-text">LIGHT-DASH</h5>
-                    <p class="grey-text text-lighten-5">"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</p>
+                    <h5 class="black-text">LIGHT-DASH</h5>
+                    <p class="grey-text text-darken-3">"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</p>
                 </div>
             </div>
         </div>
         <div class="footer-copyright">
-            <div class="container">
+            <div class="container grey-text text-darken-3">
                 GARCIA Florian et DANGUIN Axel
             </div>
         </div>
@@ -51,6 +58,9 @@
     <!--  Scripts-->
     <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
     <script src="{% static 'js/materialize.min.js'%}"></script>
+    <script src="{% static 'js/Chart.bundle.min.js'%}"></script>
+    <script src="{% static 'js/ChartUtils.js'%}"></script>
+    <script src="{% static 'js/testChart.js'%}"></script>
     <script src="{% static 'js/init.js'%}"></script>
     {% block script %} {% endblock %}
 
