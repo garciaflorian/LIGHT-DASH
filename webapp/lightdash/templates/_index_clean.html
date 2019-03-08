@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-    
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
@@ -18,10 +18,16 @@
     <nav class="nav-extended lime accent-4">
         <div class="nav-wrapper container">
             <a href="{% url 'index' %}" class="brand-logo black-text">LIGHT-DASH</a>
+            <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{% url 'settings' %}"><i class="material-icons left">settings</i>Paramètres</a></li>
+            </ul>
         </div>
-        {% block nav %}
-        {% endblock %}
     </nav>
+
+    <ul class="sidenav" id="mobile">
+        <li><a href="{% url 'settings' %}"><i class="material-icons">settings</i>Paramètres</a></li>
+    </ul>
 
 
     <main>
@@ -33,8 +39,7 @@
         <button id="addDataset">Add Dataset</button>
         <button id="removeDataset">Remove Dataset</button>
         <button id="addData">Add Data</button>
-        <button id="removeData">Remove Data</button>
-        {% endblock %}
+        <button id="removeData">Remove Data</button> {% endblock %}
     </main>
 
 
@@ -58,11 +63,12 @@
     <!--  Scripts-->
     <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
     <script src="{% static 'js/materialize.min.js'%}"></script>
+    <script src="{% static 'js/init.js'%}"></script>
+    {% block script %}
     <script src="{% static 'js/Chart.bundle.min.js'%}"></script>
     <script src="{% static 'js/ChartUtils.js'%}"></script>
     <script src="{% static 'js/testChart.js'%}"></script>
-    <script src="{% static 'js/init.js'%}"></script>
-    {% block script %} {% endblock %}
+    {% endblock %}
 
 
 </body>

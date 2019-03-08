@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('settings/', views.settings, name='settings'),
     path('lightdash/', include('lightdash.urls')),
     path('admin/', admin.site.urls),
 ]
