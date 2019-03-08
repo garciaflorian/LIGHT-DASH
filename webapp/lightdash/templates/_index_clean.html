@@ -20,26 +20,32 @@
             <a href="{% url 'index' %}" class="brand-logo black-text">LIGHT-DASH</a>
             <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="{% url 'settings' %}"><i class="material-icons left">settings</i>Paramètres</a></li>
+                <li><a href="{% url 'settings' %}" class="black-text"><i class="material-icons left">settings</i>Paramètres</a></li>
+                <li><a href="{% url 'advanced' %}" class="black-text"><i class="material-icons left">bar_chart</i>Avancée</a></li>
             </ul>
         </div>
     </nav>
 
     <ul class="sidenav" id="mobile">
         <li><a href="{% url 'settings' %}"><i class="material-icons">settings</i>Paramètres</a></li>
+        <li><a href="{% url 'advanced' %}"><i class="material-icons left">bar_chart</i>Avancée</a></li>
     </ul>
 
 
     <main>
         {% block main %}
+          <div class="container">
+            <div class="section">
         <div style="width:75%;">
             <canvas id="canvas"></canvas>
         </div>
-        <button id="randomizeData">Randomize Data</button>
-        <button id="addDataset">Add Dataset</button>
-        <button id="removeDataset">Remove Dataset</button>
-        <button id="addData">Add Data</button>
-        <button id="removeData">Remove Data</button> {% endblock %}
+        <button class="waves-effect waves-light btn" id="randomizeData">Randomize Data</button>
+        <button class="waves-effect waves-light btn" id="addDataset">Add Dataset</button>
+        <button class="waves-effect waves-light btn" id="removeDataset">Remove Dataset</button>
+        <button class="waves-effect waves-light btn" id="addData">Add Data</button>
+        <button class="waves-effect waves-light btn" id="removeData">Remove Data</button>
+              </div></div>
+        {% endblock %}
     </main>
 
 

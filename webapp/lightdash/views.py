@@ -8,3 +8,6 @@ def index(request):
 
 def settings(request):
     return render(request, 'settings.html', locals())
+
+def advanced(request):
+    return render(request, 'advanced.html', locals())
