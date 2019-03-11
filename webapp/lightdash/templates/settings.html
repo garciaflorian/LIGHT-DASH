@@ -3,6 +3,51 @@
 {% load staticfiles %}
 
 {% block main %}
-<h1>TODO FORM SETTINGS</h1>
+<div class="container">
+    <div class="section">
+        <h3 class="center">Paramètres</h3>
+        <form action="." method="post">
+            {% csrf_token %}
 
+            <div class="row">
+                <div class="input-field col m4 s12">
+                    <div class="switch">
+                        <label for="{{ form.abonnementHPHC.id_for_label}}">
+                            {{ form.abonnementHPHC }}
+                            <span class="lever"></span>
+                            {{ form.abonnementHPHC.label }}
+                        </label>
+                    </div>
+                </div>
+                <div class="input-field col m4 s12">
+                    <i class="material-icons prefix">euro_symbol</i>
+                    {{ form.tarifHP }}
+                    <label for="{{ form.tarifHP.id_for_label}}">{{ form.tarifHP.label }}</label>
+                </div>
+                <div class="input-field col m4 s12">
+                    <i class="material-icons prefix">euro_symbol</i>
+                    {{ form.tarifHC }}
+                    <label for="{{ form.tarifHC.id_for_label}}">{{ form.tarifHC.label }}</label>
+                </div>
+                <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">access_time</i>
+                    {{ form.debutHC }}
+                    <label for="{{ form.debutHC.id_for_label}}">{{ form.debutHC.label }}</label>
+                </div>
+                <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">access_time</i>
+                    {{ form.finHC }}
+                    <label for="{{ form.finHC.id_for_label}}">{{ form.finHC.label }}</label>
+                </div>
+            </div>
+
+            <button class="btn lime accent-4 black-text" type="submit" value="Submit">Appliquer</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/settingsForm.js'%}"></script>
 {% endblock %}

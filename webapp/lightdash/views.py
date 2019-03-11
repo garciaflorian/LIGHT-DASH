@@ -1,18 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseServerError
+from django.urls import resolve, reverse
 from django.conf import settings
 from lightdash.models import *
+from django.forms import ModelForm
 from django.db.models import Count
-
 
 if(Settings.objects.all().count() == 0):
     print("Initialize Settings...")
     currentSettings = Settings(id=1,abonnementHPHC = True,tarifHP = 0.1579,tarifHC = 0.1228,debutHC = datetime.time(22,0),finHC = datetime.time(6,0))
     currentSettings.save();
-else:
-    print("Get Settings...")
-    currentSettings = get_object_or_404(Settings, id=1)
-    
 
 # Create your views here.
 
@@ -20,6 +17,21 @@ def index(request):
     return render(request, '_index_clean.html', locals())
 
 def settings(request):
+    currentSettings = Settings.objects.get(id=1)
+    print(SettingsForm)
+    if request.method == 'POST':
+        form = SettingsForm(request.POST,instance=currentSettings)
+        if form.is_valid():
+            dataSettings = form.cleaned_data
+            currentSettings.abonnementHPHC = dataSettings['abonnementHPHC']
+            currentSettings.tarifHP = dataSettings['tarifHP']
+            currentSettings.tarifHC = dataSettings['tarifHC']
+            currentSettings.debutHC = dataSettings['debutHC']
+            currentSettings.finHC = dataSettings['finHC']
+            currentSettings.save()
+            return HttpResponseRedirect(reverse(index))
+    else:
+        form = SettingsForm(instance=currentSettings)
     return render(request, 'settings.html', locals())
 
 def advanced(request):
