@@ -14,12 +14,18 @@ function settingsForm()
     function bascule(){
         if(abonnementHPHC.checked){
             tarifHC.disabled = false;
+            tarifHC.value = 0.1228;
             debutHC.disabled = false;
+            debutHC.value = "22:00:00";
             finHC.disabled = false;
+            finHC.value = "06:00:00";
         }else{
             tarifHC.disabled = true;
+            tarifHC.value = "";
             debutHC.disabled = true;
+            debutHC.value = "";
             finHC.disabled = true;
+            finHC.value = "";
         }
     }
     

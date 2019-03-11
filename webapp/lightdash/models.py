@@ -19,9 +19,9 @@ class Settings(models.Model):
 class SettingsForm(ModelForm):
     abonnementHPHC = forms.BooleanField(label='Abonement HPHC',required=False)
     tarifHP = forms.FloatField(label='Tarif Heures Pleines', widget=forms.NumberInput(attrs={'step': "0.0001"}))
-    tarifHC = forms.FloatField(initial=0.1228,label='Tarif Heures Creuses', widget=forms.NumberInput(attrs={'step': "0.0001"}),required=False)
-    debutHC = forms.TimeField(initial=datetime.time(22,0),label='Début Heures Creuses',required=False)
-    finHC = forms.TimeField(initial=datetime.time(6,0),label='Fin Heures Creuses',required=False)
+    tarifHC = forms.FloatField(initial=0.1228,label='Tarif Heures Creuses', widget=forms.NumberInput(attrs={'step': "0.0001",'placeholder':'0.1228'}),required=False)
+    debutHC = forms.TimeField(initial=datetime.time(22,0),label='Début Heures Creuses',widget=forms.TextInput(attrs={'placeholder':'22:00:00'}),required=False)
+    finHC = forms.TimeField(initial=datetime.time(6,0),label='Fin Heures Creuses',widget=forms.TextInput(attrs={'placeholder':'06:00:00'}),required=False)
     
     class Meta:
         model = Settings
