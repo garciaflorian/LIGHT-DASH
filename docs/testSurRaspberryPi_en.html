@@ -1,0 +1,142 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link href="assets/css/material.icons.css" type="text/css" rel="stylesheet" />
+    <link href="./assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen" />
+    <link href="./assets/css/style.css" type="text/css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+    <header>
+        <nav class="purple darken-3">
+            <div class="nav-wrapper container">
+                <a href="./" class="brand-logo">Docs</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="./index.html">FR</a></li>
+                    <li><a href="./index_en.html">EN</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="./index.html">FR</a></li>
+            <li><a href="./index_en.html">EN</a></li>
+        </ul>
+    </header>
+    <main>
+        <div class="container">
+            <h5>Extracting data from a linky through the tele-info port using a RaspberryPi</h5>
+            <h6>Matériel</h6>
+            <div class="container">
+                <p>Here, we will be using a RaspberryPi Zero W with Raspbian Stretch Lite version 2018-11-13 : <a target="_blank" href="https://www.raspberrypi.org/downloads/raspbian/">www.raspberrypi.org</a></p>
+                <img class="responsive-img" src="./assets/img/pcbSurRaspberry.png" alt="Raspberry Pi Zero W">
+                <p>Schematics for the conversion circuit that converts tele-info to serial</p>
+                <img  class="responsive-img" src="./assets/img/raspberryPiLinkySchéma.png" alt="Schema">
+                <img  class="responsive-img" src="./assets/img/raspberryPiLinkyProto.png" alt="Schema proto">                
+            </div>
+            <h6>Test avec le Raspberry Pi</h6>
+            <div class="container">
+                <p>Connect to the RaspberryPi via SSH using the  <a target="_blank" href="http://www.circuitbasics.com/raspberry-pi-zero-ethernet-gadget/">USB/Ethernet Gadget</a> mode</p>
+                <p>Configure the serial port speed to match the Linky's</p>
+                <code class="black white-text">sudo stty -F /dev/ttyS0 sane -parenb 1200 cs7</code>
+                <p>This command displays data from the serial port every second (the liky sends info every 5 seconds)</p>
+                <code class="black white-text">watch -t -n 1 cat /dev/ttyS0</code>
+                <p>Results</p>
+                <img class="responsive-img" src="./assets/img/sortieLinky.png" alt="Sortie du télé-info Linky">
+            </div>
+            <h6>Understanding the data</h6>
+            <div class="container">
+                <p>Enedis (the company behind linky) has a document listing the télé-info specifications on their website :<a target="_blank" href="./assets/files/Enedis-NOI-CPT_54E.pdf">Enedis-NOI-CPT_54E.pdf</a> ou <a href="https://www.enedis.fr/sites/default/files/Enedis-NOI-CPT_54E.pdf" target="_blank">Enedis-NOI-CPT_54E.pdf</a></p>
+                <p>The data packages are made of a name and a value, like so : <code class="black white-text">BASE 003733275</code></p>                
+                <p>The main fields are the following :</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td><code class="black white-text">MOTDETAT</code></td>
+                            <td>lit. State Word (selfcheck)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">ADCO</code></td>
+                            <td>The linky's ID</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">OPTARIF</code></td>
+                            <td>tariff options  (subscription regimen)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">ISOUSC</code></td>
+                            <td>Subscribed amperage</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">BASE</code></td>
+                            <td>Consumption (Wh)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">PTEC</code></td>
+                            <td>Peak hour, off peak</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">IINST</code></td>
+                            <td>instantaneous Amperage (en ampères)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">IMAX</code></td>
+                            <td>max Amperage (en ampères)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">PAPP</code></td>
+                            <td>AC Power (en Volt.ampères)</td>
+                        </tr>
+                        <tr>
+                            <td><code class="black white-text">HHPHC</code></td>
+                            <td>Schedule Group</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+        </div>
+    </main>
+    <footer class="page-footer purple darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l9 s12">
+                    <h5 class="white-text">LIGHT-DASH</h5>
+                    <p class="white-text"><cite>"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</cite></p>
+                    <p class="white-text" id="description"></p>
+                </div>
+                <div class="col l3 s12">
+                    <a href="https://github.com/Jikhai/LIGHT-DASH">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                GARCIA Florian et DANGUIN Axel
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/jquery-3.2.1.min.js"></script>
+    <script src="./assets/js/materialize.min.js"></script>
+    <script src="./assets/js/init.js"></script>
+</body>
+
+</html>
