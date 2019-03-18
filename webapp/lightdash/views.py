@@ -16,6 +16,11 @@ if(Settings.objects.all().count() == 0):
 
 def index(request):
     all_data = LinkyData.objects.all()
+    currentSettings = Settings.objects.get(id=1)
+    tarifHPwh= currentSettings.tarifHP
+    conso = LinkyData.objects.latest('date').base - LinkyData.objects.get(id=1).base
+    consoTotal = LinkyData.objects.latest('date').base
+    prix = round((conso/1000)*tarifHPwh,2)
     return render(request, '_index_clean.html', locals())
 
 def settings(request):
