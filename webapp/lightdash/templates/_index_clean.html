@@ -17,7 +17,8 @@
 <body>
     <nav class="nav-extended lime accent-4">
         <div class="nav-wrapper container">
-            <a href="{% url 'index' %}" class="brand-logo black-text">LIGHT-DASH</a>
+            <a href="{% url 'index' %}" class="brand-logo black-text hide-on-small-only">LIGHT-DASH</a>
+            <a href="{% url 'index' %}" class="brand-logo black-text show-on-small hide-on-med-and-up"><h5>LIGHT-DASH</h5></a>
             <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url 'settings' %}" class="black-text"><i class="material-icons left">settings</i>Paramètres</a></li>
@@ -39,27 +40,27 @@
                 <div class="row">
                     <div class="col s12 m4">
                         <div class="card-panel light-green accent-1">
-                            <h5 class="center-align">Consommation</h5>
+                            <h6 class="center-align">Consommation</h6>
                             <h4 class="center-align">{{conso}} Wh</h4>
                             
                         </div>
                     </div>
                     <div class="col s12 m4">
                         <div class="card-panel light-green accent-1">
-                            <h5 class="center-align">Coût</h5>
+                            <h6 class="center-align">Coût</h6>
                             <h4 class="center-align">{{prix}} €</h4>
                         </div>
                     </div>
                     <div class="col s12 m4">
                         <div class="card-panel light-green accent-1">
-                            <h5 class="center-align">Relevé</h5>
+                            <h6 class="center-align">Relevé</h6>
                             <h4 class="center-align">{{consoTotal}} Wh</h4>
                         </div>
                     </div>
+                    <div class="col s12">
+                        <canvas id="canvas"></canvas>
+                    </div>
                 </div>                
-                <div>
-                    <canvas id="canvas"></canvas>
-                </div>
             </div>
         </div>
         {% endblock %}
