@@ -5,15 +5,17 @@ from django.conf import settings
 from lightdash.models import *
 from django.forms import ModelForm
 from django.db.models import Count
+import json
 
 if(Settings.objects.all().count() == 0):
     print("Initialize Settings...")
     currentSettings = Settings(id=1,abonnementHPHC = True,tarifHP = 0.1579,tarifHC = 0.1228,debutHC = datetime.time(22,0),finHC = datetime.time(6,0))
-    currentSettings.save();
+    currentSettings.save()
 
 # Create your views here.
 
 def index(request):
+    all_data = LinkyData.objects.all()
     return render(request, '_index_clean.html', locals())
 
 def settings(request):

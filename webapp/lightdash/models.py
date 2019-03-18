@@ -16,6 +16,12 @@ class Settings(models.Model):
     debutHC = models.TimeField(default=datetime.time(22,0),null=True)
     finHC = models.TimeField(default=datetime.time(6,0),null=True)
     
+class LinkyData(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    base = models.IntegerField()
+    iinst = models.IntegerField()
+    papp = models.IntegerField()
+    
 class SettingsForm(ModelForm):
     abonnementHPHC = forms.BooleanField(label='Abonement HPHC',required=False)
     tarifHP = forms.FloatField(label='Tarif Heures Pleines', widget=forms.NumberInput(attrs={'step': "0.0001"}))
