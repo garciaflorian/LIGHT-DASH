@@ -94,13 +94,13 @@
     <script>
     
         var DATE = [
-            {% for data in all_data %}
+            {% for data in last24h_data %}
                 "{{data.date|time}}",
             {% endfor %}
         ]
         
         var PAPP = [
-            {% for data in all_data %}
+            {% for data in last24h_data %}
                 {{data.papp}},
             {% endfor %}
         ]
