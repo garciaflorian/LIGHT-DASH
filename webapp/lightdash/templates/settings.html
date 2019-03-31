@@ -39,6 +39,16 @@
                     {{ form.finHC }}
                     <label for="{{ form.finHC.id_for_label}}">{{ form.finHC.label }}</label>
                 </div>
+                <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">timelapse</i>
+                    {{ form.freqPaiement }}
+                    <label for="{{ form.freqPaiement.id_for_label}}">{{ form.freqPaiement.label }}</label>
+                </div>
+                <div class="input-field col m6 s12">
+                    <i class="material-icons prefix">date_range</i>
+                    {{ form.jourPaiement }}
+                    <label for="{{ form.jourPaiement.id_for_label}}">{{ form.jourPaiement.label }}</label>
+                </div>
             </div>
 
             <button class="btn lime accent-4 black-text" type="submit" value="Submit">Appliquer</button>

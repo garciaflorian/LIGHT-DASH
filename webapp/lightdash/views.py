@@ -9,7 +9,7 @@ import json
 
 if(Settings.objects.all().count() == 0):
     print("Initialize Settings...")
-    currentSettings = Settings(id=1,abonnementHPHC = True,tarifHP = 0.1579,tarifHC = 0.1228,debutHC = datetime.time(22,0),finHC = datetime.time(6,0))
+    currentSettings = Settings(id=1,abonnementHPHC = True,tarifHP = 0.1579,tarifHC = 0.1228,debutHC = datetime.time(22,0),finHC = datetime.time(6,0),freqPaiement='m',jourPaiement=14)
     currentSettings.save()
 
 # Create your views here.
@@ -35,6 +35,8 @@ def settings(request):
             currentSettings.tarifHC = dataSettings['tarifHC']
             currentSettings.debutHC = dataSettings['debutHC']
             currentSettings.finHC = dataSettings['finHC']
+            currentSettings.freqPaiement = dataSettings['freqPaiement']
+            currentSettings.jourPaiement = dataSettings['jourPaiement']
             currentSettings.save()
             return HttpResponseRedirect(reverse(index))
     else:

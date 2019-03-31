@@ -3,6 +3,10 @@ from django import forms
 from django.forms import ModelForm
 import datetime
 
+
+
+choixPaiement = ('m','Mensuelle'),('b','Bimestrielle')
+
 # Create your models here.
 class TestData(models.Model): #this will house the data sample
     Horodate = models.DateTimeField(primary_key=True)
@@ -15,6 +19,8 @@ class Settings(models.Model):
     tarifHC = models.FloatField(default=0.1228,null=True)
     debutHC = models.TimeField(default=datetime.time(22,0),null=True)
     finHC = models.TimeField(default=datetime.time(6,0),null=True)
+    freqPaiement = models.CharField(max_length=12, choices=choixPaiement)
+    jourPaiement = models.IntegerField()
     
 class LinkyData(models.Model):
     date = models.DateTimeField(auto_now_add=True)
@@ -28,7 +34,9 @@ class SettingsForm(ModelForm):
     tarifHC = forms.FloatField(initial=0.1228,label='Tarif Heures Creuses', widget=forms.NumberInput(attrs={'step': "0.0001",'placeholder':'0.1228'}),required=False)
     debutHC = forms.TimeField(initial=datetime.time(22,0),label='Début Heures Creuses',widget=forms.TextInput(attrs={'placeholder':'22:00:00'}),required=False)
     finHC = forms.TimeField(initial=datetime.time(6,0),label='Fin Heures Creuses',widget=forms.TextInput(attrs={'placeholder':'06:00:00'}),required=False)
+    freqPaiement = forms.ChoiceField(choices=choixPaiement,label='Fréquences de paiement',required=True)
+    jourPaiement = forms.IntegerField(min_value=1,max_value=28,label='Jour de la facturation',required=True)
     
     class Meta:
         model = Settings
-        fields = ['abonnementHPHC','tarifHP','tarifHC','debutHC','finHC']
+        fields = ['abonnementHPHC','tarifHP','tarifHC','debutHC','finHC','freqPaiement','jourPaiement']
