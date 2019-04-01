@@ -6,6 +6,7 @@ import datetime
 
 
 choixPaiement = ('m','Mensuelle'),('b','Bimestrielle')
+choixDebutBim = ('j','Janvier'),('f','Février')
 
 # Create your models here.
 class TestData(models.Model): #this will house the data sample
@@ -21,6 +22,7 @@ class Settings(models.Model):
     finHC = models.TimeField(default=datetime.time(6,0),null=True)
     freqPaiement = models.CharField(max_length=12, choices=choixPaiement)
     jourPaiement = models.IntegerField()
+    debutBimestre = models.CharField(max_length=7, choices=choixDebutBim)
     
 class LinkyData(models.Model):
     date = models.DateTimeField(auto_now_add=True)
@@ -36,7 +38,8 @@ class SettingsForm(ModelForm):
     finHC = forms.TimeField(initial=datetime.time(6,0),label='Fin Heures Creuses',widget=forms.TextInput(attrs={'placeholder':'06:00:00'}),required=False)
     freqPaiement = forms.ChoiceField(choices=choixPaiement,label='Fréquences de paiement',required=True)
     jourPaiement = forms.IntegerField(min_value=1,max_value=28,label='Jour de la facturation',required=True)
+    debutBimestre = forms.ChoiceField(choices=choixDebutBim,label='Début de facturation',required=False)
     
     class Meta:
         model = Settings
-        fields = ['abonnementHPHC','tarifHP','tarifHC','debutHC','finHC','freqPaiement','jourPaiement']
+        fields = ['abonnementHPHC','tarifHP','tarifHC','debutHC','finHC','freqPaiement','jourPaiement','debutBimestre']

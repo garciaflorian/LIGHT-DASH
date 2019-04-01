@@ -1,17 +1,16 @@
 window.onload = settingsForm;
 
-function settingsForm()
-{
+function settingsForm(){
+    
     var document = window.document;
     var console = window.console;
     
     var abonnementHPHC = document.getElementById("id_abonnementHPHC");
     var tarifHC = document.getElementById("id_tarifHC");
     var debutHC = document.getElementById("id_debutHC");
-    var finHC = document.getElementById("id_finHC")
+    var finHC = document.getElementById("id_finHC");
 
-    
-    function bascule(){
+    function basculeHPHC(){
         if(abonnementHPHC.checked){
             tarifHC.disabled = false;
             tarifHC.value = 0.1228;
@@ -29,9 +28,10 @@ function settingsForm()
         }
     }
     
-    bascule();
+    basculeHPHC();
     
-    abonnementHPHC.onchange = function() {
-        bascule();
+    abonnementHPHC.onchange = function(){
+        basculeHPHC();
     }
+    
 }
