@@ -91,3 +91,20 @@ def settings(request):
 
 def advanced(request):
     return render(request, 'advanced.html', locals())
+
+def bimestre(mois):
+    currentSettings = Settings.objects.get(id=1)
+    if currentSettings.debutBimestre == 'j':
+        if(mois == 1):
+            return [1,2]   
+        elif(mois%2 == 0):
+            return [mois-1,mois]
+        else:
+            return [mois,mois+1]
+    else:
+        if(mois == 12):
+            return [12,1]   
+        elif(mois%2 == 0):
+            return [mois,mois+1]
+        else:
+            return [mois-1,mois]
