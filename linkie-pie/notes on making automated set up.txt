@@ -1,0 +1,11 @@
+raspbian (python-able, with apache) 
+
+Download install script with internet connexion
+
+py serial
+
+django
+
+config
+
+scripts, init BDD, launch web serv
