@@ -47,24 +47,43 @@ def index(request):
                         consoHP = consoHP + curr_data.base - prec_data.base
                         prec_data = curr_data
             
-            prix = round((consoHP/1000)*tarifHP,2)+round((consoHC/1000)*tarifHC,2)
+            prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
             
         else:
             prix = round((conso/1000)*tarifHP,2)
     else:
-        """
-        DON'T USE !
-        
-        currentBimonthly_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement)[0].date
+        currentBimonthly_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement).latest('date').date
+        bim = bimestre(currentBimonthly_date.month,currentBimonthly_date.year)
+        print("______________")
         print(currentBimonthly_date)
-        bimonthly_data = LinkyData.objects.filter(date__gte=currentBimonthly_date)
+        
+        bimonthly_date =  currentBimonthly_date.replace(month=bim[0][0],year=bim[0][1])
+        print(bimonthly_date)
+        bimonthly_data = LinkyData.objects.filter(date__gte=bimonthly_date)
+        conso = LinkyData.objects.latest('date').base - bimonthly_data.first().base
         
         if(currentSettings.abonnementHPHC):
             tarifHC = currentSettings.tarifHC
+            
+            debutHC = currentSettings.debutHC
+            finHC = currentSettings.finHC
+            
+            consoHC = 0
+            consoHP = 0
+            prec_data = bimonthly_data.first()
+            for curr_data in bimonthly_data:
+                if(curr_data != prec_data):
+                    if(curr_data.date.time()>=debutHC or curr_data.date.time()<finHC):
+                        consoHC = consoHC + curr_data.base - prec_data.base
+                        prec_data = curr_data
+                    else:
+                        consoHP = consoHP + curr_data.base - prec_data.base
+                        prec_data = curr_data
+            
+            prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
+            
         else:
-            conso = LinkyData.objects.latest('date').base - bimonthly_data.first().base
             prix = round((conso/1000)*tarifHP,2)
-        """
             
     return render(request, '_index_clean.html', locals())
 
@@ -100,19 +119,19 @@ def settings(request):
 def advanced(request):
     return render(request, 'advanced.html', locals())
 
-def bimestre(mois):
+def bimestre(mois,annee):
     currentSettings = Settings.objects.get(id=1)
     if currentSettings.debutBimestre == 'j':
-        if(mois == 1):
-            return [1,2]   
+        if(mois == 1 or mois == 2):
+            return [[1,annee],[2,annee]]
         elif(mois%2 == 0):
-            return [mois-1,mois]
+            return [[mois-1,annee],[mois,annee]]
         else:
-            return [mois,mois+1]
+            return [[mois,annee],[mois+1,annee]]
     else:
-        if(mois == 12):
-            return [12,1]   
+        if(mois == 12 or mois == 1):
+            return [[12,annee-1],[1,annee]]
         elif(mois%2 == 0):
-            return [mois,mois+1]
+            return [[mois,annee],[mois+1,annee]]
         else:
-            return [mois-1,mois]
+            return [[mois-1,annee],[mois,annee]]
