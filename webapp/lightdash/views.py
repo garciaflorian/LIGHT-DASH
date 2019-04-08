@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseServerError, JsonResponse
 from django.urls import resolve, reverse
 from django.conf import settings
 from lightdash.models import *
@@ -22,7 +22,7 @@ def index(request):
     tarifHP = currentSettings.tarifHP
     
     now = LinkyData.objects.latest('date').date
-    delta24h = now - timedelta(hours=24)
+    delta24h = now - timedelta(hours=23) # 24h of data
     last24h_data = LinkyData.objects.filter(date__gte=delta24h)
     
     if(currentSettings.freqPaiement == 'm'):
@@ -67,6 +67,14 @@ def index(request):
         """
             
     return render(request, '_index_clean.html', locals())
+
+def jsonData(request):
+    now = LinkyData.objects.latest('date').date
+    delta24h = now - timedelta(hours=23) # 24h of data
+    last24h_data = LinkyData.objects.filter(date__gte=delta24h)
+    last24h_json = list(last24h_data.values())
+    return JsonResponse(last24h_json, safe=False)
+
 
 def settings(request):
     currentSettings = Settings.objects.get(id=1)

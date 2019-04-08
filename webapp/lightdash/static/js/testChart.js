@@ -1,4 +1,32 @@
-var config = {
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+
+$.getJSON('./jsonData', function(data) {    
+    var DATE = data.map(function(item) {
+        var tmp = new Date(item.date);
+        return addZero(tmp.getHours())+":"+addZero(tmp.getMinutes());
+    });
+    
+    var PAPP = data.map(function(item) {
+        return item.papp;
+    });
+    
+    configChart(DATE,PAPP)
+});
+
+
+var config;
+
+function configChart(DATE,PAPP){
+
+    console.log(DATE);
+    console.log(PAPP);
+
+config = {
     type: 'line',
     data: {
         labels: DATE,
@@ -49,8 +77,12 @@ var config = {
     }
 
 };
+    initChart(config)
+}
 
-window.onload = function () {
+function initChart(config) {
     var ctx = document.getElementById('canvas').getContext('2d');
     window.myLine = new Chart(ctx, config);
 };
+    
+        
