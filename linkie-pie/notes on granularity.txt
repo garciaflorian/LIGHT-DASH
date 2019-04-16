@@ -1,0 +1,23 @@
+in order to reduce cpu usage, and response time, when accessing data recorded on large periods of time,
+indexations through tables with a lower precision is needed. Levels of precision agreed on are the following :
+
+10 minutes index
+
+
+hour based index 
+
+
+day based index 
+
+
+week based index 
+
+
+month based  ( constructs itself from day index)
+
+
+year based index (from months)
+
+as SQLIGHT doesn't support triggers, such things will be carried out through django (using signals ?)
+
+-Jik
