@@ -22,14 +22,14 @@
             <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url 'settings' %}" class="black-text"><i class="material-icons left">settings</i>Paramètres</a></li>
-                <li><a href="{% url 'advanced' %}" class="black-text"><i class="material-icons left">bar_chart</i>Avancée</a></li>
+                <li><a href="{% url 'jsonAllData' %}" target="_blank" class="black-text"><i class="material-icons left">file_copy</i>Exporter</a></li>
             </ul>
         </div>
     </nav>
 
     <ul class="sidenav" id="mobile">
         <li><a href="{% url 'settings' %}"><i class="material-icons">settings</i>Paramètres</a></li>
-        <li><a href="{% url 'advanced' %}"><i class="material-icons left">bar_chart</i>Avancée</a></li>
+        <li><a href="{% url 'jsonAllData' %}" target="_blank"><i class="material-icons left">file_copy</i>Exporter</a></li>
     </ul>
 
 
@@ -108,7 +108,7 @@
     
     </script>
     -->
-    <script src="{% static 'js/testChart.js'%}"></script>
+    <script src="{% static 'js/indexChart.js'%}"></script>
     {% endblock %}
 
 

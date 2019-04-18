@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.index, name='index'),
     path('jsonData', views.jsonData24h, name='jsonData24h'),
+    path('jsonAllData', views.jsonAllData, name='jsonAllData'),
     path('settings/', views.settings, name='settings'),
     path('advanced/', views.advanced, name='advanced'),
     path('lightdash/', include('lightdash.urls')),

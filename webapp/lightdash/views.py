@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseServerError, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseServerError, JsonResponse, StreamingHttpResponse
 from django.urls import resolve, reverse
 from django.conf import settings
 from lightdash.models import *
@@ -98,6 +98,17 @@ def jsonData24h(request):
     last24h_json = list(last24h_data.values())
     return JsonResponse(last24h_json, safe=False)
 
+def jsonAllData(request):
+    def jsonFixDatetime(o):
+        if(isinstance(o, datetime.datetime)):
+            return o.__str__()
+    
+    allData = LinkyData.objects
+    allData_list = list(allData.values())
+    allData_json = json.dumps(allData_list,default=jsonFixDatetime)
+    response = HttpResponse(allData_json,content_type='text/json')
+    response['Content-Disposition'] = 'attachment; filename="LinkyData.json"'
+    return response
 
 def settings(request):
     currentSettings = Settings.objects.get(id=1)
