@@ -91,7 +91,7 @@ def index(request):
             
     return render(request, '_index_clean.html', locals())
 
-def jsonData(request):
+def jsonData24h(request):
     now = LinkyData.objects.latest('date').date
     delta24h = now - timedelta(hours=23) # 24h of data
     last24h_data = LinkyData.objects.filter(date__gte=delta24h)

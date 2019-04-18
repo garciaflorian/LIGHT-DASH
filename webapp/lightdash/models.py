@@ -34,21 +34,25 @@ class LinkyData10min(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
     papp = models.IntegerField()
+    prea = models.IntegerField()
 
 class LinkyDataHour(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
     papp = models.IntegerField()
+    prea = models.IntegerField()
     
 class LinkyDataWeek(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
     papp = models.IntegerField()
+    prea = models.IntegerField()
     
 class LinkyDataMonth(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
     papp = models.IntegerField()
+    prea = models.IntegerField()
     
 class SettingsForm(ModelForm):
     abonnementHPHC = forms.BooleanField(label='Abonement HPHC',required=False)
