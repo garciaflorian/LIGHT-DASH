@@ -15,7 +15,7 @@ def cleanSerial(data):
             line.append("")
         return line
     except:
-        print("error with :"+data)
+        print("error with :"+str(data))
         line = []
         line.append("")
         line.append("")
@@ -28,14 +28,19 @@ def linkyParsing(serialName):
 
     while(line_list[0]!="MOTDETAT"):
         line_list = cleanSerial(serialObj.readline())
-        
-    info = {}
-    info[line_list[0]] = line_list[1]
 
-    line_list = cleanSerial(serialObj.readline())
-    while(line_list[0]!="MOTDETAT"):
-        info[line_list[0]]=line_list[1]
+    while True:
+        info = {}
+        info[line_list[0]] = line_list[1]
+
         line_list = cleanSerial(serialObj.readline())
+        while(line_list[0]!="MOTDETAT"):
+            info[line_list[0]]=line_list[1]
+            line_list = cleanSerial(serialObj.readline())
+        
+        if(int(info["MOTDETAT"])==0):
+            break
+        
     return info
 
 

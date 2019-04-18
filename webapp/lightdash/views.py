@@ -17,73 +17,77 @@ if(Settings.objects.all().count() == 0):
 
 def index(request):
     #all_data = LinkyData.objects.all()
-    consoTotal = LinkyData.objects.latest('date').base
-    currentSettings = Settings.objects.get(id=1)
-    tarifHP = currentSettings.tarifHP
+    #print("count : "+str(LinkyData.objects.count()))
     
-    now = LinkyData.objects.latest('date').date
-    delta24h = now - timedelta(hours=23) # 24h of data
-    last24h_data = LinkyData.objects.filter(date__gte=delta24h)
-    
-    if(currentSettings.freqPaiement == 'm'):
-        currentMonth_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement).latest('date').date
-        month_data = LinkyData.objects.filter(date__gte=currentMonth_date)
-        conso = LinkyData.objects.latest('date').base - month_data.first().base
-        if(currentSettings.abonnementHPHC):
-            tarifHC = currentSettings.tarifHC
-            
-            debutHC = currentSettings.debutHC
-            finHC = currentSettings.finHC
-            
-            consoHC = 0
-            consoHP = 0
-            prec_data = month_data.first()
-            for curr_data in month_data:
-                if(curr_data != prec_data):
-                    if(curr_data.date.time()>=debutHC or curr_data.date.time()<finHC):
-                        consoHC = consoHC + curr_data.base - prec_data.base
-                        prec_data = curr_data
-                    else:
-                        consoHP = consoHP + curr_data.base - prec_data.base
-                        prec_data = curr_data
-            
-            prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
-            
+    if( LinkyData.objects.count() > 1 ):
+        consoTotal = LinkyData.objects.latest('date').base
+        currentSettings = Settings.objects.get(id=1)
+        tarifHP = currentSettings.tarifHP
+
+        now = LinkyData.objects.last().date
+        #print(LinkyData.objects.last().base)
+        delta24h = now - timedelta(hours=23) # 24h of data
+        last24h_data = LinkyData.objects.filter(date__gte=delta24h)
+
+        if(currentSettings.freqPaiement == 'm'):
+            currentMonth_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement).latest('date').date
+            month_data = LinkyData.objects.filter(date__gte=currentMonth_date)
+            conso = LinkyData.objects.latest('date').base - month_data.first().base
+            if(currentSettings.abonnementHPHC):
+                tarifHC = currentSettings.tarifHC
+
+                debutHC = currentSettings.debutHC
+                finHC = currentSettings.finHC
+
+                consoHC = 0
+                consoHP = 0
+                prec_data = month_data.first()
+                for curr_data in month_data:
+                    if(curr_data != prec_data):
+                        if(curr_data.date.time()>=debutHC or curr_data.date.time()<finHC):
+                            consoHC = consoHC + curr_data.base - prec_data.base
+                            prec_data = curr_data
+                        else:
+                            consoHP = consoHP + curr_data.base - prec_data.base
+                            prec_data = curr_data
+
+                prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
+
+            else:
+                prix = round((conso/1000)*tarifHP,2)
         else:
-            prix = round((conso/1000)*tarifHP,2)
-    else:
-        currentBimonthly_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement).latest('date').date
-        bim = bimestre(currentBimonthly_date.month,currentBimonthly_date.year)
-        print("______________")
-        print(currentBimonthly_date)
-        
-        bimonthly_date =  currentBimonthly_date.replace(month=bim[0][0],year=bim[0][1])
-        print(bimonthly_date)
-        bimonthly_data = LinkyData.objects.filter(date__gte=bimonthly_date)
-        conso = LinkyData.objects.latest('date').base - bimonthly_data.first().base
-        
-        if(currentSettings.abonnementHPHC):
-            tarifHC = currentSettings.tarifHC
-            
-            debutHC = currentSettings.debutHC
-            finHC = currentSettings.finHC
-            
-            consoHC = 0
-            consoHP = 0
-            prec_data = bimonthly_data.first()
-            for curr_data in bimonthly_data:
-                if(curr_data != prec_data):
-                    if(curr_data.date.time()>=debutHC or curr_data.date.time()<finHC):
-                        consoHC = consoHC + curr_data.base - prec_data.base
-                        prec_data = curr_data
-                    else:
-                        consoHP = consoHP + curr_data.base - prec_data.base
-                        prec_data = curr_data
-            
-            prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
-            
-        else:
-            prix = round((conso/1000)*tarifHP,2)
+            currentBimonthly_date = LinkyData.objects.filter(date__day=currentSettings.jourPaiement).latest('date').date
+            bim = bimestre(currentBimonthly_date.month,currentBimonthly_date.year)
+            #print("______________")
+            #print(currentBimonthly_date)
+
+            bimonthly_date =  currentBimonthly_date.replace(month=bim[0][0],year=bim[0][1])
+            #print(bimonthly_date)
+            bimonthly_data = LinkyData.objects.filter(date__gte=bimonthly_date)
+            conso = LinkyData.objects.latest('date').base - bimonthly_data.first().base
+
+            if(currentSettings.abonnementHPHC):
+                tarifHC = currentSettings.tarifHC
+
+                debutHC = currentSettings.debutHC
+                finHC = currentSettings.finHC
+
+                consoHC = 0
+                consoHP = 0
+                prec_data = bimonthly_data.first()
+                for curr_data in bimonthly_data:
+                    if(curr_data != prec_data):
+                        if(curr_data.date.time()>=debutHC or curr_data.date.time()<finHC):
+                            consoHC = consoHC + curr_data.base - prec_data.base
+                            prec_data = curr_data
+                        else:
+                            consoHP = consoHP + curr_data.base - prec_data.base
+                            prec_data = curr_data
+
+                prix = round((consoHP/1000)*tarifHP+(consoHC/1000)*tarifHC,2)
+
+            else:
+                prix = round((conso/1000)*tarifHP,2)
             
     return render(request, '_index_clean.html', locals())
 
@@ -97,7 +101,7 @@ def jsonData(request):
 
 def settings(request):
     currentSettings = Settings.objects.get(id=1)
-    print(SettingsForm)
+    #print(SettingsForm)
     if request.method == 'POST':
         form = SettingsForm(request.POST,instance=currentSettings)
         if form.is_valid():

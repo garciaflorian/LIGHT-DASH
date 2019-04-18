@@ -2,6 +2,7 @@ from django.db import models
 from django import forms
 from django.forms import ModelForm
 import datetime
+from schedulers import test
 
 
 
@@ -27,31 +28,26 @@ class Settings(models.Model):
 class LinkyData(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
-    iinst = models.IntegerField()
     papp = models.IntegerField()
     
 class LinkyData10min(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
-    iinst = models.IntegerField()
     papp = models.IntegerField()
 
 class LinkyDataHour(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
-    iinst = models.IntegerField()
     papp = models.IntegerField()
     
 class LinkyDataWeek(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
-    iinst = models.IntegerField()
     papp = models.IntegerField()
     
 class LinkyDataMonth(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     base = models.IntegerField()
-    iinst = models.IntegerField()
     papp = models.IntegerField()
     
 class SettingsForm(ModelForm):
@@ -67,3 +63,7 @@ class SettingsForm(ModelForm):
     class Meta:
         model = Settings
         fields = ['abonnementHPHC','tarifHP','tarifHC','debutHC','finHC','freqPaiement','jourPaiement','debutBimestre']
+
+        
+#Test apscheduler
+#test.start()
