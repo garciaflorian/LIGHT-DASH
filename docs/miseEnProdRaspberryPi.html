@@ -1,0 +1,143 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Docs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link href="assets/css/material.icons.css" type="text/css" rel="stylesheet" />
+    <link href="./assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen" />
+    <link href="./assets/css/style.css" type="text/css" rel="stylesheet" media="screen" />
+</head>
+
+<body>
+    <header>
+        <nav class="purple darken-3">
+            <div class="nav-wrapper container">
+                <a href="./" class="brand-logo">Docs</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="./index.html">FR</a></li>
+                    <li><a href="./index_en.html">EN</a></li>
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            <li><a href="./index.html">FR</a></li>
+            <li><a href="./index_en.html">EN</a></li>
+        </ul>
+    </header>
+    <main>
+        <div class="container">
+            <h5>Mise en production de LIGHT-DASH sur un Raspberry Pi</h5>
+            <h6>Installation des dépendances</h6>
+            <div class="container">
+                <p>Nous utiliserons dans notre cas le système d'exploitation officiel du Raspberry Pi, <a target="_blank" href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian</a> d'avril 2019 basé sur Debian 9 Stretch.</p>
+                <p>Assurez-vous que votre Raspberry Pi soit connecté à internet et sur votre réseau local. Nous vous recommandons d'utiliser le <a href="https://www.raspberrypi.org/documentation/remote-access/ssh/" target="_blank">SSH</a> pour faire cette procédure d'installation.</p>
+                <img class="responsive-img" src="assets/img/sshRaspberry.png" alt="SSH sur Raspberry Pi">
+                <p>Mettez à jour votre système avec les commandes suivantes :</p>
+                <p><code class="black white-text">sudo apt-get update</code></p>
+                <p><code class="black white-text">sudo apt-get upgrade</code></p>
+                <p><code class="black white-text">sudo apt-get dist-upgrade</code></p>                    
+                <p>Installez les dépendances logicielles :</p>
+                <p><code class="black white-text">sudo apt-get install -y python3-pip apache2 git libapache2-mod-wsgi-py3</code></p>
+                <p>Mettez à jour l’utilitaire pip et setuptools :</p>
+                <p><code class="black white-text">sudo pip3 install --upgrade pip</code></p>
+                <p><code class="black white-text">sudo pip3 install --upgrade setuptools</code></p>
+                <p>Installez les librairies python pour LIGHT-DASH :</p>
+                <p><code class="black white-text">sudo pip3 install django==2.1.5</code></p>
+                <p><code class="black white-text">sudo pip3 install pillow==5.1.0</code></p>
+                <p><code class="black white-text">sudo pip3 install pyserial==3.2.1</code></p>
+                <p><code class="black white-text">sudo pip3 install serial==0.0.97</code></p>
+                <p><code class="black white-text">sudo pip3 install apscheduler==3.6.0</code></p>
+            </div>
+            <h6>Récupération du projet LIGHT-DASH</h6>
+            <div class="container">
+                <p>On va copier la version de DEV du projet dans le répertoire home de "pi":</p>
+                <p><code class="black white-text">git clone –branch DEV https://github.com/Jikhai/LIGHT-DASH.git</code></p>
+                <p>Recueillez les fichiers statiques dans Django :</p>
+                <p><code class="black white-text">python3 LIGHT-DASH/webapp/manage.py collectstatic</code></p>
+                <p>Désactivez le mode DEBUG et autoriser toutes adresses IP :</p>
+                <p><code class="black white-text">nano LIGHT-DASH/webapp/webapp/settings.py</code></p>
+                <p>Remplacez les lignes suivantes:</p>
+                <p  class="black white-text"><code>DEBUG = False<br>ALLOWED_HOSTS = ['*']</code></p>
+            </div>
+            <h6>Installation de LIGHT-DASH dans Apache2</h6>
+            <div class="container">
+                <p>Copiez le répertoire webapp dans /var/www/html/webapp/ :</p>
+                <p><code class="black white-text">sudo cp -R /home/pi/LIGHT-DASH/webapp/ /var/www/html/webapp/</code></p>
+                <p>Déplacez le fichier de configuration par défaut d'apache2 : </p>
+                <p><code class="black white-text">sudo mv /etc/apache2/sites-available/000-default.conf /tmp/000-default.conf</code></p>
+                <p>Editez un nouveau fichier de configuration pour apache2 : </p>
+                <p><code class="black white-text">sudo nano /etc/apache2/sites-available/000-default.conf</code></p>
+                <p>Copiez-collez la configuration suivante :</p>
+                <p class="black white-text">
+                    <code>
+                    WSGIPythonPath /var/www/html/webapp/<br>
+                    Alias /static /var/www/html/webapp/static<br>
+                    &lt;VirtualHost *:80&gt;<br>
+                    ServerAdmin webmaster@localhost<br>
+                    DocumentRoot /var/www/html<br>
+                    ErrorLog ${APACHE_LOG_DIR}/error.log<br>
+                    CustomLog ${APACHE_LOG_DIR}/access.log combined<br>
+                    WSGIScriptAlias / /var/www/html/webapp/webapp/wsgi.py<br>
+                    &lt;Directory /var/www/html/webapp/webapp&gt;<br>
+                    &lt;Files wsgi.py&gt;<br>
+                    Require all granted<br>
+                    &lt;/Files&gt;<br>
+                    &lt;/Directory&gt;<br>
+                    &lt;/VirtualHost&gt;<br>
+                    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet<br>     
+                    </code>
+                </p>
+                <p>Changez permissions d'accès dans les répertoires de LIGHT-DASH :</p>
+                <p><code class="black white-text">sudo chmod 664 /var/www/html/webapp/db.sqlite3</code></p>
+                <p><code class="black white-text">sudo chmod 775 /var/www/html/webapp/</code></p>
+                <p><code class="black white-text">sudo chown :www-data /var/www/html/webapp/db.sqlite3</code></p>
+                <p><code class="black white-text">sudo chown :www-data /var/www/html/webapp/</code></p>
+                <p>Redémarrez le serveur Apache2 :</p>
+                <p><code class="black white-text">sudo service apache2 restart</code></p>
+                <h5>Mise en production est terminé !!!</h5>
+                <p>Maintenant LIGHT-DASH est accessible en local sur le Raspberry Pi via l’url suivante <a target="_blank" href="http://127.0.0.1/">http://127.0.0.1/</a> : </p>
+                <img class="responsive-img" src="assets/img/lightdashSurRaspberry.png">
+                <p>LIGHT-DASH est disponible sur tous les ordinateurs/smartphones connecté sur le réseau local.</p>
+                <p>Sur un ordinateur :</p>
+                <img class="responsive-img" src="assets/img/lightdashDansFirefox.png">
+                <p>Sur un smartphone :</p>
+                <img class="responsive-img" src="assets/img/lightdashSmartphone.png">
+            </div>
+
+
+
+
+        </div>
+    </main>
+    <footer class="page-footer purple darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l9 s12">
+                    <h5 class="white-text">LIGHT-DASH</h5>
+                    <p class="white-text"><cite>"LInky Graphical wattHour Treatment Data Acquirement via Serial Hardware"</cite></p>
+                    <p class="white-text" id="description"></p>
+                </div>
+                <div class="col l3 s12">
+                    <a href="https://github.com/Jikhai/LIGHT-DASH">GitHub</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                GARCIA Florian et DANGUIN Axel
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/jquery-3.2.1.min.js"></script>
+    <script src="./assets/js/materialize.min.js"></script>
+    <script src="./assets/js/init.js"></script>
+</body>
+
+</html>
